@@ -1,0 +1,17 @@
+CREATE TABLE Message (
+    id INTEGER NOT NULL PRIMARY KEY,
+    content TEXT NOT NULL,
+    date TEXT NOT NULL,
+    draftGroupId TEXT,
+    number TEXT NOT NULL,
+    tag TEXT NOT NULL
+);
+
+insertItem:
+INSERT OR REPLACE INTO Message (id, content, date, draftGroupId, number, tag) VALUES (?, ?, ?, ?, ?, ?);
+
+selectAll:
+SELECT * FROM Message;
+
+deleteAll:
+DELETE FROM Message;
