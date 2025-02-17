@@ -45,7 +45,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
+import org.rushhe.f50client.helper.NotificationHelper
 import org.rushhe.f50client.model.Message
 import org.rushhe.f50client.model.MessageGroup
 import org.rushhe.f50client.utils.formatSMSDate
@@ -99,6 +101,8 @@ fun SMSListScreen(
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
 
+    val notificationHelper: NotificationHelper = koinInject<NotificationHelper>()
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -112,6 +116,9 @@ fun SMSListScreen(
         containerColor = Color.Transparent,
         contentWindowInsets = WindowInsets(0, 0, 0, 0)
     ) { innerPadding ->
+        // 调用检查通知权限的函数
+        notificationHelper.CheckAppNotificationPermission()
+
         var showDialog by remember { mutableStateOf(false) }
 
         // 网络错误对话框
@@ -177,7 +184,6 @@ fun SMSListScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-
             when (uiState) {
                 is SMSListUiState.Error -> {
                     AlertDialog(
